@@ -3,12 +3,16 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
 const bodyParser = require("body-parser");
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8888;
 const propertiesRouter = require("./routes/properties.routes"); // Import your properties router
 const usersRouter = require("./routes/users.routes");
 const admin = require("firebase-admin");
 const serviceAccount = require("./firebase/deal-real-firebase-adminsdk-bblp1-5950ccef13.json");
 require("dotenv").config();
+
+app.get("/hello", (req, res) => {
+  res.json({ message: "Hello from the serverless function!" });
+});
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -21,12 +25,12 @@ const storageFirebase = admin.storage();
 app.use(cors());
 
 // Enable CORS middleware
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "http://localhost:8888");
+//   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//   next();
+// });
 
 // New
 app.use(bodyParser.urlencoded({ extended: true, limit: "200mb" }));
